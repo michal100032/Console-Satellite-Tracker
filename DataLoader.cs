@@ -6,8 +6,11 @@ using System.Collections.Generic;
 namespace Console_Satellite_Tracker {
     class DataLoader {
         private const string DATA_FILE_PATH = "data.txt";
-        private const string DATA_URI = "https://celestrak.org/NORAD/elements/gp.php?GROUP=noaa&amp;FORMAT=tle";
-        private static readonly TimeSpan DATA_UP_TO_DATE_PERIOD = new TimeSpan(24, 0, 0);
+
+        private const string DATA_URI = "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=tle";
+        // private const string DATA_URI = "https://celestrak.org/NORAD/elements/gp.php?GROUP=noaa&FORMAT=tle";
+        private static readonly TimeSpan DATA_UP_TO_DATE_PERIOD = new TimeSpan(24, 0, 1);
+
 
 
         private static string downloadData() {
@@ -49,6 +52,7 @@ namespace Console_Satellite_Tracker {
             return DateTime.Now - File.GetLastWriteTime(DATA_FILE_PATH) < DATA_UP_TO_DATE_PERIOD;
         }
 
+        // Returns Dictionary containing satellite information with the keys being their NORAD codes 
         public static Dictionary<int, SatelliteInfo> Load() {
             string rawData;
             if (!isDataUpToDate()) {
